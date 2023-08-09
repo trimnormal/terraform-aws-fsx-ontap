@@ -10,6 +10,7 @@ variable "svm_vol_iterator" {
     username                               = string,
     file_system_administrators_group       = string,
     organizational_unit_distinguished_name = string,
+    enable_active_directory_configuration  = bool,
     vol_map = map(object({
       name                       = string,
       junction_path              = string,
@@ -35,7 +36,8 @@ variable "svm_vol_iterator" {
       password                               = null,
       username                               = null,
       file_system_administrators_group       = null,
-      organizational_unit_distinguished_name = null
+      organizational_unit_distinguished_name = null,
+      enable_active_directory_configuration  = null,
       vol_map = {
         "vol1" = {
           name                       = "vol1"
@@ -132,15 +134,9 @@ variable "tags" {
 variable "throughput_capacity" {
   type        = number
   description = "(Required) Sets the throughput capacity (in MBps) for the file system that you're creating. Valid values are 128, 256, 512, 1024, 2048, and 4096."
-  default     = null
 }
 variable "enable_disk_iops_configuration" {
   type        = bool
   description = "(Optional) enables the configuration of disk iops settings"
   default     = false
-}
-variable "enable_active_directory_configuration" {
-  type        = bool
-  description = "(Optional) enables the configuration of AD settings "
-  default = false
 }

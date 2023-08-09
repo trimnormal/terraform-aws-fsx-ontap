@@ -1,5 +1,5 @@
 module "advanced" {
-  source              = "../../"
+  source              = "trimnormal/fsx-ontap/aws"
   storage_capacity    = 1024
   subnet_ids          = ["<your_subnet_id>"]
   preferred_subnet_id = "<your_subnet_id>"
@@ -11,12 +11,13 @@ module "advanced" {
       root_volume_security_style             = null
       tags                                   = null
       netbios_name                           = "svm1"
-      dns_ips                                = ["<your_dns_ips>","<your_dns_ips>"]
-      domain_name                            = "<your_domain_name>"
-      password                               = "<your_svc_account_password>"
-      username                               = "<your_svc_account_username>"
-      file_system_administrators_group       = "<your_admin_group>"
-      organizational_unit_distinguished_name = "<your_ou_path>"
+      enable_active_directory_configuration  = false
+      dns_ips                                = null
+      domain_name                            = null
+      password                               = null
+      username                               = null
+      file_system_administrators_group       = null
+      organizational_unit_distinguished_name = null
       vol_map = {
         "vol1" = {
           name                       = "vol1"
@@ -28,7 +29,7 @@ module "advanced" {
           storage_efficiency_enabled = null
           tiering_policy_name        = null
           cooling_period             = null
-          enable_tiering_policy = null
+          enable_tiering_policy      = null
         },
         "vol2" = {
           name                       = "vol2"
@@ -40,7 +41,7 @@ module "advanced" {
           storage_efficiency_enabled = null
           tiering_policy_name        = null
           cooling_period             = null
-          enable_tiering_policy = null
+          enable_tiering_policy      = null
         },
       }
     },
@@ -49,12 +50,13 @@ module "advanced" {
       root_volume_security_style             = null
       tags                                   = null
       netbios_name                           = "svm2"
-      dns_ips                                = ["<your_dns_ips>","<your_dns_ips>"]
-      domain_name                            = "<your_domain_name>"
-      password                               = "<your_svc_account_password>"
-      username                               = "<your_svc_account_username>"
-      file_system_administrators_group       = "<your_admin_group>"
-      organizational_unit_distinguished_name = "<your_ou_path>"
+      enable_active_directory_configuration  = false
+      dns_ips                                = null
+      domain_name                            = null
+      password                               = null
+      username                               = null
+      file_system_administrators_group       = null
+      organizational_unit_distinguished_name = null
       vol_map = {
         "vol1" = {
           name                       = "vol1"
@@ -66,7 +68,7 @@ module "advanced" {
           storage_efficiency_enabled = null
           tiering_policy_name        = null
           cooling_period             = null
-          enable_tiering_policy = null
+          enable_tiering_policy      = null
         }
       }
     }
