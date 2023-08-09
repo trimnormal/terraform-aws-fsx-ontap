@@ -6,8 +6,8 @@ resource "aws_fsx_ontap_file_system" "this" {
   weekly_maintenance_start_time     = var.weekly_maintenance_start_time
   deployment_type                   = var.deployment_type
   kms_key_id                        = var.kms_key_id
-  automatic_backup_retention_days   = var.automatic_backup_retention_days
-  daily_automatic_backup_start_time = var.daily_automatic_backup_start_time
+  automatic_backup_retention_days   = local.backup_enable ? var.automatic_backup_retention_days : null
+  daily_automatic_backup_start_time = local.backup_enable ? var.daily_automatic_backup_start_time : null
 
   dynamic "disk_iops_configuration" {
     for_each = var.enable_disk_iops_configuration == false ? [] : [1]
