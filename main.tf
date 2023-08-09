@@ -8,9 +8,13 @@ resource "aws_fsx_ontap_file_system" "this" {
   kms_key_id                        = var.kms_key_id
   automatic_backup_retention_days   = var.automatic_backup_retention_days
   daily_automatic_backup_start_time = var.daily_automatic_backup_start_time
-  disk_iops_configuration {
-    iops = var.iops
-    mode = var.mode
+
+  dynamic "disk_iops_configuration" {
+    for_each = var.enable_disk_iops_configuration == false ? [] : [1]
+    content {
+      iops = var.iops
+      mode = var.mode
+    }
   }
   endpoint_ip_address_range = var.endpoint_ip_address_range
   storage_type              = var.storage_type
@@ -21,7 +25,7 @@ resource "aws_fsx_ontap_file_system" "this" {
 }
 
 module "svm_volume" {
-  source                                 = "./sub-module"
+  source                                 = "./modules/svm_volume"
   for_each                               = var.svm_vol_iterator
   fs_id                                  = aws_fsx_ontap_file_system.this.id
   svm_name                               = each.value.svm_name
