@@ -67,7 +67,7 @@ variable "vol_map" {
 }
 variable "enable_active_directory_configuration" {
   type        = bool
-  description = "(Required) something "
+  description = "(Optional) Boolean to enable the configuration of active directory settings on storage virtual machines: Netbios, DNS IPs, Domain Name, etc"
   //TODO
   default = false
 }

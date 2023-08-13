@@ -6,15 +6,11 @@ resource "aws_fsx_ontap_file_system" "this" {
   weekly_maintenance_start_time     = var.weekly_maintenance_start_time
   deployment_type                   = var.deployment_type
   kms_key_id                        = var.kms_key_id
-  automatic_backup_retention_days   = local.backup_enable ? var.automatic_backup_retention_days : null
-  daily_automatic_backup_start_time = local.backup_enable ? var.daily_automatic_backup_start_time : null
-
-  dynamic "disk_iops_configuration" {
-    for_each = var.enable_disk_iops_configuration == false ? [] : [1]
-    content {
-      iops = var.iops
-      mode = var.mode
-    }
+  automatic_backup_retention_days   = var.automatic_backup_retention_days
+  daily_automatic_backup_start_time = var.daily_automatic_backup_start_time
+  disk_iops_configuration {
+    iops = var.iops
+    mode = var.mode
   }
   endpoint_ip_address_range = var.endpoint_ip_address_range
   storage_type              = var.storage_type
@@ -22,6 +18,25 @@ resource "aws_fsx_ontap_file_system" "this" {
   route_table_ids           = var.route_table_ids
   tags                      = var.tags
   throughput_capacity       = var.throughput_capacity
+
+  lifecycle {
+    precondition {
+      condition     = local.pref_subnet == true
+      error_message = "Preferred subnet must be in provided subnets"
+    }
+    precondition {
+      condition     = local.two_subnets_for_multiaz == true
+      error_message = "Multi AZ configurations require two subnets"
+    }
+    precondition {
+      condition     = local.backup_enable == true
+      error_message = "Setting automatic_backup_retention_days to 0 disables automatic backup, don't specify daily_automatic_backup_start_time"
+    }
+    precondition {
+      condition     = local.iops == true
+      error_message = "To enable custom iops set mode to USER_PROVISIONED and iops to number"
+    }
+  }
 }
 
 module "svm_volume" {

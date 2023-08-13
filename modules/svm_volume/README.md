@@ -2,24 +2,21 @@
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | 5.2.0 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.4.5 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~>5.2.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 5.2.0 |
-
-## Modules
-
-No modules.
+| <a name="provider_aws"></a> [aws](#provider\_aws) | ~>5.2.0 |
 
 ## Resources
 
 | Name | Type |
 |------|------|
-| [aws_fsx_ontap_storage_virtual_machine.this](https://registry.terraform.io/providers/hashicorp/aws/5.2.0/docs/resources/fsx_ontap_storage_virtual_machine) | resource |
-| [aws_fsx_ontap_volume.this](https://registry.terraform.io/providers/hashicorp/aws/5.2.0/docs/resources/fsx_ontap_volume) | resource |
+| [aws_fsx_ontap_storage_virtual_machine.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/fsx_ontap_storage_virtual_machine) | resource |
+| [aws_fsx_ontap_volume.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/fsx_ontap_volume) | resource |
 
 ## Inputs
 
@@ -27,7 +24,7 @@ No modules.
 |------|-------------|------|---------|:--------:|
 | <a name="input_dns_ips"></a> [dns\_ips](#input\_dns\_ips) | (Required) A list of up to three IP addresses of DNS servers or domain controllers in the self-managed AD directory. | `list(string)` | `null` | no |
 | <a name="input_domain_name"></a> [domain\_name](#input\_domain\_name) | (Required) The fully qualified domain name of the self-managed AD directory. For example, corp.example.com. | `string` | `null` | no |
-| <a name="input_enable_active_directory_configuration"></a> [enable\_active\_directory\_configuration](#input\_enable\_active\_directory\_configuration) | (Required) something | `bool` | `false` | no |
+| <a name="input_enable_active_directory_configuration"></a> [enable\_active\_directory\_configuration](#input\_enable\_active\_directory\_configuration) | (Optional) Boolean to enable the configuration of active directory settings on storage virtual machines: Netbios, DNS IPs, Domain Name, etc | `bool` | `false` | no |
 | <a name="input_file_system_administrators_group"></a> [file\_system\_administrators\_group](#input\_file\_system\_administrators\_group) | (Optional) The name of the domain group whose members are granted administrative privileges for the SVM. The group that you specify must already exist in your domain. Defaults to Domain Admins. | `string` | `null` | no |
 | <a name="input_fs_id"></a> [fs\_id](#input\_fs\_id) | (Required) The ID of the Amazon FSx ONTAP File System that this SVM will be created on. | `string` | n/a | yes |
 | <a name="input_netbios_name"></a> [netbios\_name](#input\_netbios\_name) | (Required) The NetBIOS name of the Active Directory computer object that will be created for your SVM. This is often the same as the SVM name but can be different. AWS limits to 15 characters because of standard NetBIOS naming limits. | `string` | `null` | no |
@@ -43,5 +40,5 @@ No modules.
 
 | Name | Description |
 |------|-------------|
-| <a name="output_vm_management_endpoints"></a> [vm\_management\_endpoints](#output\_vm\_management\_endpoints) | n/a |
-| <a name="output_volume_attributes"></a> [volume\_attributes](#output\_volume\_attributes) | n/a |
+| <a name="output_vm_management_endpoints"></a> [vm\_management\_endpoints](#output\_vm\_management\_endpoints) | Management IP addresses of storage virtual machines |
+| <a name="output_volume_attributes"></a> [volume\_attributes](#output\_volume\_attributes) | ARN, ID, UUID of volumes |

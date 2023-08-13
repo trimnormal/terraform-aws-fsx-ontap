@@ -1,4 +1,4 @@
-module "advanced" {
+module "max" {
   source                            = "trimnormal/fsx-ontap/aws"
   storage_capacity                  = 1024
   subnet_ids                        = ["<your_subnet_id>"]
@@ -7,7 +7,6 @@ module "advanced" {
   throughput_capacity               = 128
   automatic_backup_retention_days   = 30
   daily_automatic_backup_start_time = "05:00"
-  enable_disk_iops_configuration    = true
   iops                              = 1000
   mode                              = "USER_PROVISIONED"
   fsx_admin_password                = "dont_put_passwords_in_plain_text"

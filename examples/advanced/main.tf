@@ -1,9 +1,9 @@
 module "advanced" {
   source              = "trimnormal/fsx-ontap/aws"
   storage_capacity    = 1024
-  subnet_ids          = ["<your_subnet_id>"]
+  subnet_ids          = ["<your_subnet_id>", ""]
   preferred_subnet_id = "<your_subnet_id>"
-  deployment_type     = "SINGLE_AZ_1"
+  deployment_type     = "MULTI_AZ_1"
   throughput_capacity = 128
   svm_vol_iterator = {
     "svm1" = {
