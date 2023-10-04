@@ -1,63 +1,39 @@
 variable "svm_vol_iterator" {
   type = map(object({
-    svm_name                               = string,
-    root_volume_security_style             = string,
-    tags                                   = map(string),
-    netbios_name                           = string,
-    dns_ips                                = list(string),
-    domain_name                            = string,
-    password                               = string,
-    username                               = string,
-    file_system_administrators_group       = string,
-    organizational_unit_distinguished_name = string,
-    enable_active_directory_configuration  = bool,
-    vol_map = map(object({
-      name                       = string,
-      junction_path              = string,
-      ontap_volume_type          = string,
-      security_style             = string,
-      size_in_megabytes          = number,
-      skip_final_backup          = bool,
-      storage_efficiency_enabled = bool,
-      tiering_policy_name        = string,
-      cooling_period             = number,
-      enable_tiering_policy      = bool
-    }))
+    svm_name                               = optional(string, "svm1"),
+    root_volume_security_style             = optional(string),
+    tags                                   = optional(map(string)),
+    netbios_name                           = optional(string),
+    dns_ips                                = optional(list(string)),
+    domain_name                            = optional(string),
+    password                               = optional(string),
+    username                               = optional(string),
+    file_system_administrators_group       = optional(string),
+    organizational_unit_distinguished_name = optional(string),
+    enable_active_directory_configuration  = optional(bool, false),
+    vol_map = optional(map(object({
+      name                       = optional(string, "vol1"),
+      size_in_megabytes          = optional(number, 100),
+      junction_path              = optional(string, "/vol1"),
+      ontap_volume_type          = optional(string),
+      security_style             = optional(string),
+      skip_final_backup          = optional(bool),
+      storage_efficiency_enabled = optional(bool, true),
+      tiering_policy_name        = optional(string),
+      cooling_period             = optional(number),
+      enable_tiering_policy      = optional(bool, false)
+    })), {})
   }))
   description = "(Optional) an object used to configure N number of SVMs with N number of volumes on each. Default behavior is 1 svm with 1 volume and no AD configuration"
   default = {
-    "svm1" = {
-      svm_name                               = "svm1"
-      root_volume_security_style             = null,
-      tags                                   = null,
-      netbios_name                           = null,
-      dns_ips                                = null,
-      domain_name                            = null,
-      password                               = null,
-      username                               = null,
-      file_system_administrators_group       = null,
-      organizational_unit_distinguished_name = null,
-      enable_active_directory_configuration  = null,
-      vol_map = {
-        "vol1" = {
-          name                       = "vol1"
-          size_in_megabytes          = 100
-          junction_path              = null,
-          ontap_volume_type          = null,
-          security_style             = null,
-          skip_final_backup          = null,
-          storage_efficiency_enabled = null,
-          tiering_policy_name        = null,
-          cooling_period             = null,
-          enable_tiering_policy      = false
-      } }
-  } }
+    "svm1" = {}
+  }
 }
 
 variable "storage_capacity" {
   type        = number
   description = "(Optional) The storage capacity (GiB) of the file system. Valid values between 1024 and 196608."
-  default     = null
+  default     = 1024
   validation {
     condition     = var.storage_capacity > 1024 || var.storage_capacity < 196608
     error_message = "Valid values are between 1024 and 196608 for FS storage capacity"
@@ -140,7 +116,7 @@ variable "mode" {
   description = "(Optional) - Specifies whether the number of IOPS for the file system is using the system. Valid values are AUTOMATIC and USER_PROVISIONED. Default value is AUTOMATIC."
   default     = null
   validation {
-    condition = var.mode == null ? true : var.mode == "AUTOMATIC" ? true : var.mode == "USER_PROVISIONED" ? true : false
+    condition     = var.mode == null ? true : var.mode == "AUTOMATIC" ? true : var.mode == "USER_PROVISIONED" ? true : false
     error_message = "Mode must be either AUTOMATIC or USER_PROVISIONED"
   }
 }

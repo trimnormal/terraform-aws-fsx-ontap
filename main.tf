@@ -8,16 +8,20 @@ resource "aws_fsx_ontap_file_system" "this" {
   kms_key_id                        = var.kms_key_id
   automatic_backup_retention_days   = var.automatic_backup_retention_days
   daily_automatic_backup_start_time = var.daily_automatic_backup_start_time
-  disk_iops_configuration {
-    iops = var.iops
-    mode = var.mode
+  endpoint_ip_address_range         = var.endpoint_ip_address_range
+  storage_type                      = var.storage_type
+  fsx_admin_password                = var.fsx_admin_password
+  route_table_ids                   = var.route_table_ids
+  tags                              = var.tags
+  throughput_capacity               = var.throughput_capacity
+
+  dynamic "disk_iops_configuration" {
+    for_each = var.iops == null ? [] : [1]
+    content {
+      iops = var.iops
+      mode = var.mode
+    }
   }
-  endpoint_ip_address_range = var.endpoint_ip_address_range
-  storage_type              = var.storage_type
-  fsx_admin_password        = var.fsx_admin_password
-  route_table_ids           = var.route_table_ids
-  tags                      = var.tags
-  throughput_capacity       = var.throughput_capacity
 
   lifecycle {
     precondition {
